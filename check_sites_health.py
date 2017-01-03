@@ -30,20 +30,20 @@ def get_file_name_with_urls():
     return parser.parse_args().file
 
 
-def check_urls(urls):
+def get_true_urls(urls):
     today = datetime.datetime.today()
     days_in_month = 30
-    urls_ok = []
+    true_urls = []
     for url in urls:
         is_code_200 = is_server_respond_with_200(url)
         expiration_date = get_domain_expiration_date(url)
         days_to_expiration = (expiration_date - today).days
         if is_code_200 and days_to_expiration > days_in_month:
-            urls_ok.append(url)
-    return urls_ok
+            true_urls.append(url)
+    return true_urls
 
 
-def print_urls_ok(urls):
+def print_true_urls(urls):
     for url in urls:
         print('%s в порядке!' % url)
 
@@ -54,5 +54,5 @@ if __name__ == '__main__':
     if not urls:
         print('файл %s не найден\n' % path)
     else:
-        urls = check_urls(urls)
-        print_urls_ok(urls)
+        urls = get_true_urls(urls)
+        print_true_urls(urls)
